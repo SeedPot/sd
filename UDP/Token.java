@@ -10,7 +10,7 @@ public class Token{
 
 	}
 
-	public String generarToken(){
+	public String generarToken(String user){
 		//Crea un Token random de 20 caracteres
 		char[] abcchar = abc.toCharArray();
 		StringBuilder cadena = new StringBuilder();
@@ -23,7 +23,50 @@ public class Token{
 
 		String token = cadena.toString();
 
+		guardarToken(user, token);
+
 		return token;
+	}
+
+	public void guardarToken(String user, String token){
+		//Extraer a todos los usuarios y guardarlos en una lista y a la vez encontrar al usuario
+		ArrayList<String> listado = new ArrayList<String>();
+		String filename = "usuarios.txt";
+		File file = new File(filename);
+		try{
+			Scanner s = new Scanner(file);
+
+			while(s.hasNextLine()){
+				String linea = s.nextLine();
+				String[] corte = linea.split(":");
+
+				if( corte[0].equals(user) ){
+					Calendar calendario = Calendar.getInstance();
+					long milisegundos = calendario.getTimeInMillis();
+					//Actualiza el token y su expiracion
+					linea = corte[0] + ":" + corte[1] + ":" + token + ":" + milisegundos;	
+				}			
+
+				listado.add(linea);
+			}
+
+			Iterator<String> iterador = listado.iterator();
+			FileWriter fw = new FileWriter(filename, true);
+
+			String item = "";
+			while(iterador.hasNext()){
+				item = iterador.next();
+				fw.write(item);
+			}
+
+			fw.close();
+
+		}catch(FileNotFoundException e){
+			System.out.println("Error. No se ha encontrado el archivo usuarios.txt\n");
+		}catch(IOException e){
+			System.err.println("IOException: " + e.getMessage());
+		}
+
 	}
 
 	public boolean validarToken(String user, String token){
@@ -31,7 +74,7 @@ public class Token{
 		String corte[] = leerArchivo(user);
 		if(corte == null)
 			return false;
-		
+
 		String tokenGuardado = corte[3];
 		int tokenExpiracion = Integer.parseInt(corte[4]);
 
