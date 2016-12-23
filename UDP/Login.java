@@ -1,7 +1,7 @@
 public class Login{
 
 	//Cifrado Cesar
-	private String abc = "abcdefghijklmnopqrstuvwxyz ";
+	private String abc = "abcdefghijklmnopqrstuvwxyz1234567890";
 	private int desplazamiento = 7;
 
 	public Login(){
@@ -9,10 +9,15 @@ public class Login{
 	}
 
 	public boolean validarCredenciales(String user, String pass){
-		//Llamar a desencriptar(pass) pasándole la pass
+		Token token = new Token();
+		String[] corte = token.leerArchivo(user);
 
+		if(corte == null)
+			return false;
 
-		return false;
+		System.out.println("Validacion: user->" + corte[0] + ", pass->" + corte[1]);
+
+		return corte[1].equals(pass);
 	}
 
 	public String encriptar(String pass){
@@ -36,12 +41,6 @@ public class Login{
 		}
 
 		return cifrado;
-	}
-
-	public String desencriptar(String pass){
-
-
-		return "";
 	}
 
 }
