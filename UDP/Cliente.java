@@ -6,7 +6,6 @@ public class Cliente {
 
 	public static void main(String args[]) {
 		String token = "";
-		int calculo = 0;
 		//Menu
 		Scanner sc = new Scanner(System.in);
 		String rut, pass, union;
@@ -48,18 +47,21 @@ public class Cliente {
 					switch (serie) {
 						case 1:
 							//Fibonacci
-							calculo = c.serie(rut, c.getToken(), serie, n);
+							String respuesta = c.serie(rut, c.getToken(), serie, n);
+							String [] corte = respuesta.split(":");
+							String calculo = corte[5];
+							System.out.println("\n\tEl resultado es: " + calculo);	
 							break;
 						case 2:
 							//Taylor	
-							calculo = c.serie(rut, c.getToken(), serie, n);
+							//calculo = c.serie(rut, c.getToken(), serie, n);
 							break;
 						default:
 							System.out.println("\n\tSelecciona una opcion válida");
 							break;
 
 					}
-					System.out.println("\n\tEl resultado es: " + calculo);
+					//System.out.println("\n\tEl resultado es: " + calculo);
 				}else{
 					System.out.println("\n\tUsuario o password incorrectos");
 				}

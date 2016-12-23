@@ -30,15 +30,27 @@ public class ConexionUDP{
         return false;
     }
 
-    public int serie(String rut, String token, int idSerie, int n){
+    public String serie(String rut, String token, int idSerie, int n){
         String union;
-        int respuesta;
+        String respuesta = new String();
+
         //idSerie = 1: fibonacci 2:taylor    
-
-        union = "2:" + rut + ":" + token + ":" + idSerie + ":" + n;
-
-        respuesta = Integer.parseInt(this.request(union));
-         
+        switch (idSerie) {
+            case 1:
+                //calcular fibonacci
+                union = "2:" + rut + ":" + token + ":" + idSerie + ":" + n;
+                respuesta = this.request(union);
+                break;
+            
+            case 2:
+                //calcular fibonacci
+                union = "2:" + rut + ":" + token + ":" + idSerie + ":" + n;
+                respuesta = this.request(union);
+                break;
+        
+            default:
+                break;
+        }         
         return respuesta;
     }
 

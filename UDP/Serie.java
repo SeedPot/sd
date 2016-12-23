@@ -6,12 +6,13 @@ public class Serie {
 
 	}
 
-	public double fibonacci(int n) {
+	public String fibonacci(int n) {
+		double respuesta = 0.0;
 		do {
-			int respuesta;
+			int i;
 
-			fibo1 = 1;
-			fibo2 = 1;
+			double fibo1 = 1;
+			double fibo2 = 1;
 
 			for (i = 2; i <= n; i++) {
 
@@ -19,15 +20,12 @@ public class Serie {
 				fibo1 = fibo2 - fibo1;
 				respuesta = fibo1;
 			}
-
-			return respuesta;
+			return Double.toString(respuesta);
 		} while (n >= 2);
-
-		return respuesta = 0;
 	}
 
-	public double taylor(int n){
-/*
+	/*public double taylor(int n){
+
 		for(int i=0; 1 < n; i++){
 //elevamos x a la i y dividimos por el factorial del número
 t= Math.pow(x, i) / factorial(i);
@@ -48,6 +46,6 @@ for (int i=1;i<=numero; i++){
 resultado*=i;
 
 		return 0;
-	*/}
+	}*/
 
 }
