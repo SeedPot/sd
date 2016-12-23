@@ -9,19 +9,14 @@ public class Serie {
 	public String fibonacci(int n) {
 		double respuesta = 0.0;
 		do {
-<<<<<<< HEAD
 			int i;
 
 			double fibo1 = 1;
 			double fibo2 = 1;
-=======
-			double respuesta = 0;
 
-			int fibo1 = 1;
-			int fibo2 = 1;
->>>>>>> a45037a6dde6ba4d3211c2e4a13192a261ecd91b
+			respuesta = 0;
 
-			for (int i = 2; i <= n; i++) {
+			for (i = 2; i <= n; i++) {
 
 				fibo2 = fibo1 + fibo2;
 				fibo1 = fibo2 - fibo1;
@@ -29,10 +24,7 @@ public class Serie {
 			}
 			return Double.toString(respuesta);
 		} while (n >= 2);
-<<<<<<< HEAD
-=======
 
->>>>>>> a45037a6dde6ba4d3211c2e4a13192a261ecd91b
 	}
 
 	/*public double taylor(int n){
@@ -54,13 +46,7 @@ double resultado=1;
 
 for (int i=1;i<=numero; i++){
 
-resultado*=i;*/
+resultado*=i;
 
-		return 0;
-<<<<<<< HEAD
 	}*/
-=======
-	}
->>>>>>> a45037a6dde6ba4d3211c2e4a13192a261ecd91b
-
 }
