@@ -8,12 +8,12 @@ public class Serie {
 
 	public double fibonacci(int n) {
 		do {
-			int respuesta;
+			double respuesta = 0;
 
-			fibo1 = 1;
-			fibo2 = 1;
+			int fibo1 = 1;
+			int fibo2 = 1;
 
-			for (i = 2; i <= n; i++) {
+			for (int i = 2; i <= n; i++) {
 
 				fibo2 = fibo1 + fibo2;
 				fibo1 = fibo2 - fibo1;
@@ -23,7 +23,6 @@ public class Serie {
 			return respuesta;
 		} while (n >= 2);
 
-		return respuesta = 0;
 	}
 
 	public double taylor(int n){
@@ -45,9 +44,9 @@ double resultado=1;
 
 for (int i=1;i<=numero; i++){
 
-resultado*=i;
+resultado*=i;*/
 
 		return 0;
-	*/}
+	}
 
 }
