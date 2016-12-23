@@ -15,10 +15,27 @@ public class Login{
 		return false;
 	}
 
-	public String encriptar(){
+	public String encriptar(String pass){
+		String cadena = pass;
+		String cifrado = "";
 
+		for(int i = 0; i < cadena.length(); i++){
+			for(int j = 0; j < abc.length(); j++){
 
-		return "";
+				if( cadena.charAt(i) == abc.charAt(j) ){	
+
+					if( j + desplazamiento >= abc.length() ){	//El desplazamiento sobrepasó a la letra z
+						cifrado += abc.charAt( (j + desplazamiento) % abc.length() );
+					}else{										//Desplazamiento normal
+						cifrado += abc.charAt( j + desplazamiento );
+					}
+
+				}
+
+			}
+		}
+
+		return cifrado;
 	}
 
 	public String desencriptar(String pass){
