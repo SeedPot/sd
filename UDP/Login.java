@@ -5,7 +5,7 @@ public class Login{
 	private int desplazamiento = 7;
 
 	public Login(){
-
+		
 	}
 
 	public boolean validarCredenciales(String user, String pass){
