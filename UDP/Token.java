@@ -51,12 +51,14 @@ public class Token{
 			}
 
 			Iterator<String> iterador = listado.iterator();
-			FileWriter fw = new FileWriter(filename, true);
+			file.delete();
+			File fold = new File(filename);
+			FileWriter fw = new FileWriter(fold, false);
 
 			String item = "";
 			while(iterador.hasNext()){
 				item = iterador.next();
-				fw.write(item);
+				fw.write(item + "\n");
 			}
 
 			fw.close();
