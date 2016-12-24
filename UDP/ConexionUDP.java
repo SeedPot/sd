@@ -7,6 +7,7 @@ public class ConexionUDP{
 
     private static final int puerto = 6789;
     private String token;
+    private boolean expirado;
 	
 
     public ConexionUDP(){
@@ -23,6 +24,7 @@ public class ConexionUDP{
 
         String[] corte = respuesta.split(":");  //[TOKEN:SUCCESS] ó [Mensaje:ERROR]
         if(corte[1].equals("SUCCESS")){
+            this.expirado = false;
             setToken(corte[0]);
             return true;
         }
@@ -37,7 +39,9 @@ public class ConexionUDP{
         union = "2:" + rut + ":" + token + ":" + codSerie + ":" + n; //[SERIES:USER:TOKEN:COD_SERIE:N]
         respuesta = this.request(union);  
         String[] corte = respuesta.split(":");  //[Resultado:SUCCESS] ó [Mensaje:ERROR]
-          
+        if(corte[1].equals("ERROR")){
+            this.expirado = true;
+        }  
         return corte[0];
     }
 
@@ -74,5 +78,9 @@ public class ConexionUDP{
 
     public String getToken(){
         return this.token;
+    }
+
+    public boolean estaExpirado(){
+        return this.expirado;
     }
 }

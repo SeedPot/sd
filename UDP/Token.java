@@ -119,10 +119,10 @@ public class Token{
 
 				if(corte[0].equals(user))
 					return corte;
-				else 
-					return null;
+					
 
 			}
+			return null;
 		}catch(FileNotFoundException e){
 			System.out.println("Error. No se ha encontrado el archivo usuarios.txt\n");
 		}

@@ -22,7 +22,7 @@ public class ServidorUDP {
                                                 );
                 
                 String mensaje = new String(peticion.getData(), "UTF-8").trim();
-                System.out.println("Mensaje del usuario: " + mensaje);
+                //System.out.println("Mensaje del usuario: " + mensaje);
 
                 String[] corte = mensaje.split(":");
                 int codigo = Integer.parseInt(corte[0]);    //codigo -> 1:LOGIN, 2:SERIES
@@ -65,7 +65,7 @@ public class ServidorUDP {
                             byte[] b = success.getBytes("UTF-8");                            
                             respuesta.setData(b);
                         }else{
-                            String error = "Token Expirado:ERROR";   //[ERR_MESSAGE:ERROR]
+                            String error = "Token Expirado, inicie sesion nuevamente:ERROR";   //[ERR_MESSAGE:ERROR]
                             byte[] b = error.getBytes("UTF-8");
                             respuesta.setData(b);
                         }                        
