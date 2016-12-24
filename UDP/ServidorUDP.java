@@ -5,14 +5,6 @@ import java.util.*;
 public class ServidorUDP {
 
     public static void main(String args[]){
-
-        int codigo=0;
-        String user = new String();
-        String pass = new String();
-        String cod_serie = new String();
-        String token = new String();
-        String n = new String();
-        DatagramPacket respuesta = null;
 		
         try{
             DatagramSocket unSocket = new DatagramSocket(6789);
@@ -21,86 +13,62 @@ public class ServidorUDP {
             while(true){
                 DatagramPacket peticion = new DatagramPacket(bufer,bufer.length);
                 unSocket.receive(peticion);
+
+                DatagramPacket respuesta = new DatagramPacket(
+                                                    peticion.getData(),
+                                                    peticion.getLength(),
+                                                    peticion.getAddress(),
+                                                    peticion.getPort()
+                                                );
                 
                 String mensaje = new String(peticion.getData(), "UTF-8").trim();
                 System.out.println("Mensaje del usuario: " + mensaje);
 
-                String[] corte = mensaje.split(":"); 
-                int tam = corte.length;
-                if(tam == 3 ){
-                    //1:login 2:calcuo serie
-                codigo = Integer.parseInt(corte[0]);
-                //
-                 user = corte[1];
-                //
-                 pass = corte[2]; 
-
-                 respuesta = new DatagramPacket(
-                                                    peticion.getData(),
-                                                    peticion.getLength(),
-                                                    peticion.getAddress(),
-                                                    peticion.getPort()
-                                                );
-                }
-                if(tam == 5 ){
-                    //1:login 2:calcuo serie
-                codigo = Integer.parseInt(corte[0]);
-                //
-                 user = corte[1];
-                //
-                token = corte[2]; 
-                //
-                cod_serie = corte[3];
-
-                n = corte[4];
-
-                 respuesta = new DatagramPacket(
-                                                    peticion.getData(),
-                                                    peticion.getLength(),
-                                                    peticion.getAddress(),
-                                                    peticion.getPort()
-                                                );
-                }
-                
+                String[] corte = mensaje.split(":");
+                int codigo = Integer.parseInt(corte[0]);    //codigo -> 1:LOGIN, 2:SERIES
 
                 switch(codigo){
-                    case 1: //[CODIGO:USER:PASS]
+                    case 1:     //[LOGIN:USER:PASS]
                         Login login = new Login();
-                        if( login.validarCredenciales(user, pass) ){    //Devolver token
-                            Token token2 = new Token();
-                            String tokenGenerado = token2.generarToken(user);
-                            tokenGenerado = tokenGenerado + ":success"; //[TOKEN:success]
+                        if( login.validarCredenciales(corte[1], corte[2]) ){    //Usuario válido, devolver token
+                            Token token = new Token();
+                            String tokenGenerado = token.generarToken(corte[1]);
+                            tokenGenerado = tokenGenerado + ":SUCCESS"; //[TOKEN:SUCCESS]
                             byte[] b = tokenGenerado.getBytes("UTF-8");
                             respuesta.setData(b);
                         }else{
-                            String error = "Error al validar credenciales:error";
+                            String error = "Error al validar credenciales:ERROR";   //[ERR_MESSAGE:ERROR]
                             byte[] b = error.getBytes("UTF-8");
                             respuesta.setData(b);
                         }
 
                         break;
-                    case 2: //[CODIGO:USER:TOKEN:COD_SERIE:N]
-                        Serie serie = new Serie();
-                        String resultado = new String();
-                        int numero = Integer.parseInt(n);
-                        String union = new String();
-                        //Fibonacci
+                    case 2:     //[SERIES:USER:TOKEN:COD_SERIE:N]
+                        //Validar si el Token está vigente -> corte[2]
+                        Token token = new Token();
+                        if( token.validarToken(corte[1], corte[2]) ){
+                            int cod_serie = Integer.parseInt(corte[3]);
+                            int terminos = Integer.parseInt(corte[4]);
 
-                        if(Integer.parseInt(cod_serie) == 1){
-                            //si el token existe o algo asi 
-                            Token token2 = new Token();
-                            if(token2.validarToken(user, token)){
-                                //Si el token existe
-                                resultado = serie.fibonacci(numero);
-                                union = token2 + ":" + resultado;
-                                byte[] b = union.getBytes();
-                                respuesta.setData(b);                                
+                            //Calcular serie
+                            Serie serie = new Serie();
+                            String success = "";   //[RESULTADO:SUCCESS]
+
+                            switch(cod_serie){
+                                case 1: //Fibonacci
+                                    success = serie.fibonacci(terminos) + ":SUCCESS";
+                                    break;
+                                case 2: //Taylor
+                                    break;
                             }
-                        }
-                        //Taylor
-                        if( Integer.parseInt(cod_serie) == 2){
 
-                        }
+                            byte[] b = success.getBytes("UTF-8");                            
+                            respuesta.setData(b);
+                        }else{
+                            String error = "Token Expirado:ERROR";   //[ERR_MESSAGE:ERROR]
+                            byte[] b = error.getBytes("UTF-8");
+                            respuesta.setData(b);
+                        }                        
                         break;
                 }                
                 

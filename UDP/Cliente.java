@@ -31,7 +31,7 @@ public class Cliente {
 				int serie;
 				int n;
 				ConexionUDP c = new ConexionUDP();
-				if(c.login(rut, pass)){
+				if(c.login(rut, pass)){	//Usuario existe
 					System.out.println("\n\tToken: " + c.getToken() + "\n\n");
 
 					System.out.println("\tSeleccione la serie que desea calcular: ");
@@ -41,16 +41,14 @@ public class Cliente {
 					Scanner sc2 = new Scanner(System.in);
 					serie = sc2.nextInt();
 
-					System.out.println("\n\tSeleccione hasta donde desea calcular n");
+					System.out.print("\n\tIngrese la cantidad de terminos N: ");
 					n = sc2.nextInt();
 
 					switch (serie) {
 						case 1:
-							//Fibonacci
+							//Fibonacci	
 							String respuesta = c.serie(rut, c.getToken(), serie, n);
-							String [] corte = respuesta.split(":");
-							String calculo = corte[5];
-							System.out.println("\n\tEl resultado es: " + calculo);	
+							System.out.println("\n\tRespuesta: " + respuesta + "\n");	
 							break;
 						case 2:
 							//Taylor	

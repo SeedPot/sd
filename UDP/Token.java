@@ -77,8 +77,8 @@ public class Token{
 		if(corte == null)
 			return false;
 
-		String tokenGuardado = corte[3];
-		int tokenExpiracion = Integer.parseInt(corte[4]);
+		String tokenGuardado = corte[2];
+		long tokenExpiracion = Long.valueOf(corte[3]).longValue();;
 
 		//Llamar a existe(token) para compararlo con el token enviado
 		if(!existe(tokenGuardado, token))
@@ -95,14 +95,16 @@ public class Token{
 		return tokenGuardado.equals(token);
 	}
 
-	public boolean expirado(int expiracion, String token){
+	public boolean expirado(long expiracion, String token){
 		Calendar calendario = Calendar.getInstance();
 		long milisegundos = calendario.getTimeInMillis();
 
-		int segundosActuales = (int) (milisegundos / 1000) % 60 ;
-		int segundosToken = (int) (expiracion / 1000) % 60 ;
+		System.out.println("\nActual: " + milisegundos);
+		System.out.println("Token: " + expiracion + "\n");
 
-		int segundosDiferencia = segundosActuales - segundosToken;
+		long segundosDiferencia = (milisegundos - expiracion) /1000;
+
+		System.out.println("Token segundos: " + segundosDiferencia);
 
 		return (segundosDiferencia >= 60) ? true : false;
 	}

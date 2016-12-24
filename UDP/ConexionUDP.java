@@ -18,11 +18,11 @@ public class ConexionUDP{
         Login login = new Login();
         String passEncriptado = login.encriptar(pass);
 
-        union = "1:" + rut + ":" + passEncriptado;
+        union = "1:" + rut + ":" + passEncriptado;  //[LOGIN:RUT:PASS_ENC]
         respuesta = this.request(union);
 
-        String[] corte = respuesta.split(":");  //[TOKEN:success] ó [mensaje:error]
-        if(corte[1].equals("success")){
+        String[] corte = respuesta.split(":");  //[TOKEN:SUCCESS] ó [Mensaje:ERROR]
+        if(corte[1].equals("SUCCESS")){
             setToken(corte[0]);
             return true;
         }
@@ -30,28 +30,15 @@ public class ConexionUDP{
         return false;
     }
 
-    public String serie(String rut, String token, int idSerie, int n){
+    public String serie(String rut, String token, int codSerie, int n){
         String union;
         String respuesta = new String();
 
-        //idSerie = 1: fibonacci 2:taylor    
-        switch (idSerie) {
-            case 1:
-                //calcular fibonacci
-                union = "2:" + rut + ":" + token + ":" + idSerie + ":" + n;
-                respuesta = this.request(union);
-                break;
-            
-            case 2:
-                //calcular fibonacci
-                union = "2:" + rut + ":" + token + ":" + idSerie + ":" + n;
-                respuesta = this.request(union);
-                break;
-        
-            default:
-                break;
-        }         
-        return respuesta;
+        union = "2:" + rut + ":" + token + ":" + codSerie + ":" + n; //[SERIES:USER:TOKEN:COD_SERIE:N]
+        respuesta = this.request(union);  
+        String[] corte = respuesta.split(":");  //[Resultado:SUCCESS] ó [Mensaje:ERROR]
+          
+        return corte[0];
     }
 
     public String request(String mensaje){

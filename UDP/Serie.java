@@ -22,7 +22,7 @@ public class Serie {
 				fibo1 = fibo2 - fibo1;
 				respuesta = fibo1;
 			}
-			return Double.toString(respuesta);
+			return "Para N = " + n  + " terminos, la serie de Fibonacci es " + Integer.toString((int)respuesta);
 		} while (n >= 2);
 
 	}
