@@ -14,63 +14,31 @@ public class Cliente {
 			Scanner sc = new Scanner(System.in);
 			System.out.println("\n\n\tServicios Calculo de Series\n");
 			System.out.println("\tInicio de sesion");
-			//
+
 			System.out.print("\n\tRUT: ");
 			rut = sc.nextLine();
-			//password
+
 			System.out.print("\tPASSWORD: ");
 			pass = sc.nextLine();
-			//solicitar tipo conexion 
+			
 			System.out.println("\n\tTIPO DE CONEXION: ");
 			System.out.println("\t[1]: UDP ");
 			System.out.println("\t[2]: TCP");
 			System.out.print("\t[3]: Serializacion ");
 			tipoCon = sc.nextInt();
 
+			int serie;
+			int n;
+			Conexion conexion = null;
+
 			switch (tipoCon) {
 				/*=========================== UDP ===============================*/
 				case 1:
-					int serie;
-					int n;
-					ConexionUDP c = new ConexionUDP();
-					if(c.login(rut, pass)){	//Usuario existe
-						do{
-							System.out.println("\n\n\tSeleccione la serie que desea calcular: ");
-							System.out.println("\t[1]: Fibonacci");
-							System.out.print("\t[2]: Taylor ");
-
-							Scanner sc2 = new Scanner(System.in);
-							serie = sc2.nextInt();
-
-							switch (serie) {
-
-								case 1://Fibonacci										
-									System.out.print("\n\tIngrese la cantidad de terminos N: ");
-									n = sc2.nextInt();
-									String fibonacci = c.serie(rut, c.getToken(), serie, n);
-									System.out.println("\n\n\tRespuesta: " + fibonacci + "\n");	
-									break;
-
-								case 2://Taylor										
-									System.out.print("\n\tIngrese la cantidad de terminos N: ");
-									n = sc2.nextInt();
-									String taylor = c.serie(rut, c.getToken(), serie, n);
-									System.out.println("\n\n\tRespuesta: " + taylor + "\n");	
-									break;
-
-								default:
-									System.out.println("\n\tSelecciona una opcion valida");
-									break;
-							}
-							
-							}while(!c.estaExpirado());
-					}else{
-						System.out.println("\n\tUsuario o password incorrectos");
-					}
+					conexion = new ConexionUDP();					
 					break;
 				/*=========================== TCP ===============================*/
 				case 2:
-					
+					conexion = new ConexionTCP();					
 					break;
 				/*=========================== Serializacion ===============================*/
 				case 3:
@@ -78,9 +46,48 @@ public class Cliente {
 					break;
 				/*=========================== Opcion invalida ===============================*/
 				default:
-					System.out.println("1: UDP , 2:TCP , 3:Serialización");
+					System.out.println("\n\tOpcion no valida.\n");
 					break;
 			}
+
+			if(conexion != null){
+
+				if(conexion.login(rut, pass)){	//Usuario existe
+					do{
+						System.out.println("\n\n\tSeleccione la serie que desea calcular: ");
+						System.out.println("\t[1]: Fibonacci");
+						System.out.print("\t[2]: Taylor ");
+
+						Scanner sc2 = new Scanner(System.in);
+						serie = sc2.nextInt();
+
+						switch (serie) {
+
+							case 1://Fibonacci										
+								System.out.print("\n\tIngrese la cantidad de terminos N: ");
+								n = sc2.nextInt();
+								String fibonacci = conexion.serie(rut, conexion.getToken(), serie, n);
+								System.out.println("\n\n\tRespuesta: " + fibonacci + "\n");	
+								break;
+
+							case 2://Taylor										
+								System.out.print("\n\tIngrese la cantidad de terminos N: ");
+								n = sc2.nextInt();
+								String taylor = conexion.serie(rut, conexion.getToken(), serie, n);
+								System.out.println("\n\n\tRespuesta: " + taylor + "\n");	
+								break;
+
+							default:
+								System.out.println("\n\tSelecciona una opcion valida");
+								break;
+						}
+						
+						}while(!conexion.estaExpirado());
+					}else{
+						System.out.println("\n\tUsuario o password incorrectos");
+					}
+				}
+
 		}while(true);
 	}
 
