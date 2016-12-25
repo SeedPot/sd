@@ -28,10 +28,10 @@ public class Serie {
 
 	}
 
-	public long taylor(int n){
+	public String taylor(int n){
 		double respuesta = 0.0;
 
 		long taylor = (long)respuesta;
-		return return "Para N = " + n  + " terminos, la serie de Taylor es " + taylor;
+		return "Para N = " + n  + " terminos, la serie de Taylor es " + taylor;
 	}
 }
