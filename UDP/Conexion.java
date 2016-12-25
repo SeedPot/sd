@@ -26,11 +26,11 @@ public abstract class Conexion{
         return false;
     }
 
-    public String serie(String rut, String token, int codSerie, int n){
+    public String serie(String rut, String token, String serie){
         String union;
         String respuesta = new String();
 
-        union = "2:" + rut + ":" + token + ":" + codSerie + ":" + n; //[SERIES:USER:TOKEN:COD_SERIE:N]
+        union = "2:" + rut + ":" + token + ":" + serie; //[SERIES:USER:TOKEN:COD_SERIE:N]
         respuesta = this.request(union); 
         String[] corte = respuesta.split(":");  //[Resultado:SUCCESS] ó [Mensaje:ERROR]
 

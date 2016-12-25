@@ -78,7 +78,8 @@ class ConexionSocket extends Thread{
                                 success = serie.fibonacci(terminos) + ":SUCCESS";
                                 break;
                             case 2: //Taylor
-                                success = serie.taylor(terminos) + ":SUCCESS";
+                            	int x = Integer.parseInt(corte[5]);
+                                success = serie.taylor(terminos, x) + ":SUCCESS";
                                 break;
                         }
 

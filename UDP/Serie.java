@@ -28,8 +28,7 @@ public class Serie {
 
 	}
 
-	public String taylor(int n) {
-		int x = 2;//valor por defecto
+	public String taylor(int n, int x) {
 		double sumatoria=0.0,t = 0.0;
 		for (int i = 0; i < n; i++) {
 			//elevamos x a la i y dividimos por el factorial del número

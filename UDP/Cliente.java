@@ -29,6 +29,8 @@ public class Cliente {
 
 			int serie;
 			int n;
+			int x;
+			String serie_n = "";
 			Conexion conexion = null;
 
 			switch (tipoCon) {
@@ -66,14 +68,19 @@ public class Cliente {
 							case 1://Fibonacci										
 								System.out.print("\n\tIngrese la cantidad de terminos N: ");
 								n = sc2.nextInt();
-								String fibonacci = conexion.serie(rut, conexion.getToken(), serie, n);
+								serie_n = serie + ":" + n;
+								String fibonacci = conexion.serie(rut, conexion.getToken(), serie_n);
 								System.out.println("\n\n\tRespuesta: " + fibonacci + "\n");	
 								break;
 
 							case 2://Taylor										
 								System.out.print("\n\tIngrese la cantidad de terminos N: ");
 								n = sc2.nextInt();
-								String taylor = conexion.serie(rut, conexion.getToken(), serie, n);
+								serie_n = serie + ":" + n;
+								System.out.print("\n\tIngrese el valor de X: ");
+								x = sc2.nextInt();
+								serie_n += ":" + x;
+								String taylor = conexion.serie(rut, conexion.getToken(), serie_n);
 								System.out.println("\n\n\tRespuesta: " + taylor + "\n");	
 								break;
 
