@@ -28,6 +28,7 @@ public class ServidorUDP {
                 int codigo = Integer.parseInt(corte[0]);    //codigo -> 1:LOGIN, 2:SERIES
 
                 switch(codigo){
+                    
                     case 1:     //[LOGIN:USER:PASS]
                         Login login = new Login();
                         if( login.validarCredenciales(corte[1], corte[2]) ){    //Usuario válido, devolver token
@@ -43,10 +44,10 @@ public class ServidorUDP {
                         }
 
                         break;
-                    case 2:     //[SERIES:USER:TOKEN:COD_SERIE:N]
-                        //Validar si el Token está vigente -> corte[2]
+
+                    case 2:     //[SERIES:USER:TOKEN:COD_SERIE:N]                        
                         Token token = new Token();
-                        if( token.validarToken(corte[1], corte[2]) ){
+                        if( token.validarToken(corte[1], corte[2]) ){   //Validar si el Token está vigente
                             int cod_serie = Integer.parseInt(corte[3]);
                             int terminos = Integer.parseInt(corte[4]);
 
@@ -59,6 +60,7 @@ public class ServidorUDP {
                                     success = serie.fibonacci(terminos) + ":SUCCESS";
                                     break;
                                 case 2: //Taylor
+                                    success = serie.taylor(terminos) + ":SUCCESS";
                                     break;
                             }
 

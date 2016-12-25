@@ -37,11 +37,13 @@ public class ConexionUDP{
         String respuesta = new String();
 
         union = "2:" + rut + ":" + token + ":" + codSerie + ":" + n; //[SERIES:USER:TOKEN:COD_SERIE:N]
-        respuesta = this.request(union);  
+        respuesta = this.request(union); 
         String[] corte = respuesta.split(":");  //[Resultado:SUCCESS] ó [Mensaje:ERROR]
+
         if(corte[1].equals("ERROR")){
             this.expirado = true;
         }  
+
         return corte[0];
     }
 

@@ -28,6 +28,7 @@ public class Cliente {
 			tipoCon = sc.nextInt();
 
 			switch (tipoCon) {
+				/*=========================== UDP ===============================*/
 				case 1:
 					int serie;
 					int n;
@@ -42,19 +43,21 @@ public class Cliente {
 							serie = sc2.nextInt();
 
 							switch (serie) {
-								case 1:
-									//Fibonacci	
+
+								case 1://Fibonacci										
 									System.out.print("\n\tIngrese la cantidad de terminos N: ");
 									n = sc2.nextInt();
-									String respuesta = c.serie(rut, c.getToken(), serie, n);
-									System.out.println("\n\n\tRespuesta: " + respuesta + "\n");	
+									String fibonacci = c.serie(rut, c.getToken(), serie, n);
+									System.out.println("\n\n\tRespuesta: " + fibonacci + "\n");	
 									break;
-								case 2:
-									//Taylor	
+
+								case 2://Taylor										
 									System.out.print("\n\tIngrese la cantidad de terminos N: ");
 									n = sc2.nextInt();
-									//calculo = c.serie(rut, c.getToken(), serie, n);
+									String taylor = c.serie(rut, c.getToken(), serie, n);
+									System.out.println("\n\n\tRespuesta: " + taylor + "\n");	
 									break;
+
 								default:
 									System.out.println("\n\tSelecciona una opcion valida");
 									break;
@@ -65,18 +68,20 @@ public class Cliente {
 						System.out.println("\n\tUsuario o password incorrectos");
 					}
 					break;
+				/*=========================== TCP ===============================*/
 				case 2:
-					//TCP
+					
 					break;
-
+				/*=========================== Serializacion ===============================*/
 				case 3:
-					//serializacion
+					
 					break;
-
+				/*=========================== Opcion invalida ===============================*/
 				default:
 					System.out.println("1: UDP , 2:TCP , 3:Serialización");
 					break;
 			}
 		}while(true);
 	}
+
 }
