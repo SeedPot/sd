@@ -22,16 +22,32 @@ public class Serie {
 				fibo1 = fibo2 - fibo1;
 				respuesta = fibo1;
 			}
-			long fibonacci = (long)respuesta;
-			return "Para N = " + n  + " terminos, la serie de Fibonacci es " + fibonacci;
+			long fibonacci = (long) respuesta;
+			return "Para N = " + n + " terminos, la serie de Fibonacci es " + fibonacci;
 		} while (n >= 2);
 
 	}
 
-	public long taylor(int n){
-		double respuesta = 0.0;
+	public String taylor(int n) {
+		int x = 2;//valor por defecto
+		double sumatoria=0.0,t = 0.0;
+		for (int i = 0; i < n; i++) {
+			//elevamos x a la i y dividimos por el factorial del número
+			t = Math.pow(x, i) / factorial(i);
+			System.out.println(t);
+			sumatoria += t;
+		}
+		System.out.println("La serie de taylor calculada es: " + sumatoria);
+		return "Para N = " + n + " terminos, X = 2 valor base, la serie de Taylor es " + sumatoria;
+	}
 
-		long taylor = (long)respuesta;
-		return return "Para N = " + n  + " terminos, la serie de Taylor es " + taylor;
+	public static double factorial(int numero) {
+		double resultado = 1;
+
+		for (int i = 1; i <= numero; i++) {
+			resultado *= i;
+		}
+
+		return (resultado);
 	}
 }
