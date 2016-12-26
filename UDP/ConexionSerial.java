@@ -2,63 +2,60 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class ConexionSerial{
-
-	private static final int puertoTCP = 7896;
-    private String token;
-    private boolean expirado;
+public class ConexionSerial extends Conexion{
 
 	public ConexionSerial(){
-
+		this.serial = true;
 	}
-
-	public boolean login(String rut, String pass){
-        String union;
-        String respuesta;
-        Login login = new Login();
-        String passEncriptado = login.encriptar(pass);
-
-        union = "1:" + rut + ":" + passEncriptado;  //[LOGIN:RUT:PASS_ENC]
-        respuesta = this.request(union);
-
-        String[] corte = respuesta.split(":");  //[TOKEN:SUCCESS] ó [Mensaje:ERROR]
-        if(corte[1].equals("SUCCESS")){
-            this.expirado = false;
-            setToken(corte[0]);
-            return true;
-        }
-
-        return false;
-    }
-
-    public String serie(String rut, String token, String serie){
-        String union;
-        String respuesta = new String();
-
-        union = "2:" + rut + ":" + token + ":" + serie; //[SERIES:USER:TOKEN:COD_SERIE(N[+X])]
-        respuesta = this.request(union); 
-        String[] corte = respuesta.split(":");  //[Resultado:SUCCESS] ó [Mensaje:ERROR]
-
-        if(corte[1].equals("ERROR")){
-            this.expirado = true;
-        }  
-
-        return corte[0];
-    }
 
 	public String request(String mensaje){
     	try{
-			Socket s = new Socket("localhost", puertoTCP);
-			DataInputStream entrada = new DataInputStream(s.getInputStream());
-			DataOutputStream salida = new DataOutputStream(s.getOutputStream());
-			
-			salida.writeUTF(mensaje);
-			String respuesta = entrada.readUTF();
-			
-			//System.out.println(respuesta);//Respuesta
-			s.close();
+    		InetAddress host = InetAddress.getLocalHost();
+			DatagramSocket socket = new DatagramSocket(6788, host);
 
-			return respuesta.trim();
+			String[] corte = mensaje.split(":");
+            int codigo = Integer.parseInt(corte[0]);
+
+			PeticionSerializada peticion = new PeticionSerializada(codigo);
+	        peticion.setRut(corte[1]);
+
+	        if(codigo == 1){	//Login
+	        	peticion.setPass(corte[2]);	        	
+	        }else{				//Series
+            	int codigoSerie = Integer.parseInt(corte[3]);
+            	int n = Integer.parseInt(corte[4]);
+	        	peticion.setToken(corte[2]);
+	        	peticion.setCodigoSerie(codigoSerie);
+	        	peticion.setN(n);
+            	if(codigoSerie == 2){	//Taylor
+            		int x = Integer.parseInt(corte[5]);
+            		peticion.setX(x);
+            	}
+	        }
+
+	        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+			ObjectOutputStream os = new ObjectOutputStream (bytes);
+			os.writeObject(peticion);
+			os.close();
+			byte[] peticionEnBytes = bytes.toByteArray();
+
+	        DatagramPacket objeto = new DatagramPacket(	peticionEnBytes,
+                    									peticionEnBytes.length, 
+                    									host, 
+                    									6789);
+	        socket.send(objeto);
+
+	        byte[] buffer = new byte[1000];
+
+	        DatagramPacket respuesta = new DatagramPacket(buffer, buffer.length);
+    		socket.receive(respuesta);
+    		socket.close();
+
+    		ByteArrayInputStream baos = new ByteArrayInputStream(buffer);
+	      	ObjectInputStream oos = new ObjectInputStream(baos);
+	      	PeticionSerializada c1 = (PeticionSerializada)oos.readObject();
+			
+			return c1.getRespuesta();
 			
 		}catch(UnknownHostException e){
 			System.out.println("Socket: " + e.getMessage());
@@ -66,6 +63,8 @@ public class ConexionSerial{
 			System.out.println("EOF: " + e.getMessage());
 		}catch(IOException e){
 			System.out.println("IO: " + e.getMessage());
+		}catch(ClassNotFoundException e){
+			System.out.println("ClassNotFound: " + e.getMessage());
 		}
 
         return null;

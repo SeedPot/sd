@@ -6,6 +6,7 @@ import java.util.*;
 public class ConexionTCP extends Conexion{	
 
     public ConexionTCP(){
+    	this.serial = false;
     }
 
     @Override

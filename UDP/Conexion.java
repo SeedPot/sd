@@ -4,6 +4,7 @@ public abstract class Conexion{
 	protected static final int puertoTCP = 7896;
     protected String token;
     protected boolean expirado;
+    protected boolean serial = false;
 
     public abstract String request(String mensaje);
 
@@ -15,7 +16,6 @@ public abstract class Conexion{
 
         union = "1:" + rut + ":" + passEncriptado;  //[LOGIN:RUT:PASS_ENC]
         respuesta = this.request(union);
-
         String[] corte = respuesta.split(":");  //[TOKEN:SUCCESS] ó [Mensaje:ERROR]
         if(corte[1].equals("SUCCESS")){
             this.expirado = false;
@@ -30,12 +30,13 @@ public abstract class Conexion{
         String union;
         String respuesta = new String();
 
-        union = "2:" + rut + ":" + token + ":" + serie; //[SERIES:USER:TOKEN:COD_SERIE:N]
+        union = "2:" + rut + ":" + token + ":" + serie; //[SERIES:RUT:TOKEN:COD_SERIE:N]
         respuesta = this.request(union); 
         String[] corte = respuesta.split(":");  //[Resultado:SUCCESS] ó [Mensaje:ERROR]
 
         if(corte[1].equals("ERROR")){
             this.expirado = true;
+            System.out.println("\n\nRESPUESTA: " + respuesta);
         }  
 
         return corte[0];
@@ -51,6 +52,10 @@ public abstract class Conexion{
 
     public boolean estaExpirado(){
         return this.expirado;
+    }
+
+    public boolean esSerializable(){
+        return this.serial;
     }
 
 }

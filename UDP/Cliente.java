@@ -44,7 +44,7 @@ public class Cliente {
 					break;
 				/*=========================== Serializacion ===============================*/
 				case 3:
-					
+					conexion = new ConexionSerial();
 					break;
 				/*=========================== Opcion invalida ===============================*/
 				default:
@@ -88,7 +88,7 @@ public class Cliente {
 								System.out.println("\n\tSelecciona una opcion valida");
 								break;
 						}
-						
+							System.out.println("\n\n" + conexion.estaExpirado() + "\n\n");
 						}while(!conexion.estaExpirado());
 					}else{
 						System.out.println("\n\tUsuario o password incorrectos");

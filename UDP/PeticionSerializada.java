@@ -9,11 +9,13 @@ public class PeticionSerializada implements Serializable{
 	private int codigoSerie;
 	private int n;
 	private int x;
+	private String respuesta;
 
 	public PeticionSerializada(int tipoPeticion){
 		this.tipoPeticion = tipoPeticion;
 	}
 
+	//SETTER
 	public void setRut(String rut){
 		this.rut = rut;
 	}
@@ -38,6 +40,11 @@ public class PeticionSerializada implements Serializable{
 		this.x = x;
 	}
 
+	public void setRespuesta(String respuesta){
+		this.respuesta = respuesta;
+	}
+
+	//GETTER
 	public int getTipoPeticion(){
 		return this.tipoPeticion;
 	}
@@ -65,4 +72,9 @@ public class PeticionSerializada implements Serializable{
 	public int getX(){
 		return this.x;
 	}
+
+	public String getRespuesta(){
+		return this.respuesta;
+	}
+
 }

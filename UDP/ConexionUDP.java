@@ -6,6 +6,7 @@ import java.util.*;
 public class ConexionUDP extends Conexion{
 
     public ConexionUDP(){
+        this.serial = false;
     }
 
     @Override
